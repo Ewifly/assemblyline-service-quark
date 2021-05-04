@@ -1,0 +1,1 @@
+A service that queries quark-engine from https://github.com/quark-engine/quark-engine oàn APK for malicious activities
