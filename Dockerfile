@@ -10,7 +10,7 @@ RUN python3.7 -m pip install -U quark-engine
 RUN chown -R assemblyline:assemblyline /opt/al_service/
 
 RUN mkdir -p /opt/al_support
-RUN git clone https://github.com/quark-engine/quark-rules /opt/al_support
+RUN git clone https://github.com/quark-engine/quark-rules /opt/al_support/quark-rules
 # Switch to assemblyline user
 USER assemblyline
 
