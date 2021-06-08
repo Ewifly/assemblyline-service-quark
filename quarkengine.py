@@ -18,10 +18,10 @@ class QuarkEngine(ServiceBase):
         quark_out = os.path.join(self.working_directory, 'quark_out')
 
         if request.get_param('generate_graphs'):
-            qu = Popen(["quark", "-a", apk, "-g", "-t 80", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
+            qu = Popen(["quark", "-a", apk, "-g", "-t", "80", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
             qu.communicate()
         else:
-            qu = Popen(["quark", "-a", apk, "-t 80", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
+            qu = Popen(["quark", "-a", apk, "-t", "80", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
             qu.communicate()
 
         if os.path.exists(quark_out):
