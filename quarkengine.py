@@ -39,7 +39,7 @@ class QuarkEngine(ServiceBase):
 
         dic_report_crime = {}
         crimes_section = ResultSection("Crimes detected")
-        for i in len(data['crimes']):
+        for i in range(len(data['crimes'])):
             dic_report_crime["{0}".format(data["crimes"][i]["crime"])] = ResultSection("{0}".format(data["crimes"][i]["crime"]), parent = crimes_section)
             dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("confidence level : {0}".format(data["crimes"][i]["confidence"]))
             dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("weight : {0}".format(data["crimes"][i]["weight"]))
