@@ -18,10 +18,10 @@ class QuarkEngine(ServiceBase):
         quark_out = os.path.join(self.working_directory, 'quark_out')
 
         if request.get_param('generate_graphs'):
-            qu = Popen(["quark", "-a", apk, "-g", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
+            qu = Popen(["quark", "-a", apk, "-g", "-t 80", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
             qu.communicate()
         else:
-            qu = Popen(["quark", "-a", apk, "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
+            qu = Popen(["quark", "-a", apk, "-t 80", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
             qu.communicate()
 
         if os.path.exists(quark_out):
@@ -40,18 +40,18 @@ class QuarkEngine(ServiceBase):
         dic_report_crime = {}
         crimes_section = ResultSection("Crimes detected")
         for i in range(len(data['crimes'])):
-            dic_report_crime["{0}".format(data["crimes"][i]["crime"])] = ResultSection("{0}".format(data["crimes"][i]["crime"]), parent = crimes_section)
-            dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("confidence level : {0}".format(data["crimes"][i]["confidence"]))
-            dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("weight : {0}".format(data["crimes"][i]["weight"]))
+                dic_report_crime["{0}".format(data["crimes"][i]["crime"])] = ResultSection("{0}".format(data["crimes"][i]["crime"]), parent = crimes_section)
+                dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("confidence level : {0}".format(data["crimes"][i]["confidence"]))
+                dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("weight : {0}".format(data["crimes"][i]["weight"]))
 
-            if data["crimes"][i]['permissions']:
-                perm_section = ResultSection("permissions associated with the crime", parent = dic_report_crime["{0}".format(data["crimes"][i]["crime"])])
-                for permission in data["crimes"][i]['permissions']:
-                    dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line(permission)
+                if len(data["crimes"][i]['permissions']) > 0:
+                    perm_section = ResultSection("permissions associated with the crime", parent = dic_report_crime["{0}".format(data["crimes"][i]["crime"])])
+                    for permission in data["crimes"][i]['permissions']:
+                        dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line(permission)
 
-            if data["crimes"][i]['native_api']:
-                native_api_section = ResultSection("native_api", parent = dic_report_crime["{0}".format(data["crimes"][i]["crime"])])
-                for api in data["crimes"][i]["native_api"]:
-                    dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("class : {0}".format(api["class"]))
-                    dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("method : {0}".format(api["method"])) 
+                if len(data["crimes"][i]['native_api']) > 0:
+                    native_api_section = ResultSection("native_api", parent = dic_report_crime["{0}".format(data["crimes"][i]["crime"])])
+                    for api in data["crimes"][i]["native_api"]:
+                        dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("class : {0}".format(api["class"]))
+                        dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("method : {0}".format(api["method"])) 
         result.add_section(crimes_section)
