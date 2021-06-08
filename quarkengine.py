@@ -6,7 +6,7 @@ from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FO
 
 class QuarkEngine(ServiceBase):
     def __init__(self, config=None):
-        super(Quark, self).__init__(config)
+        super(QuarkEngine, self).__init__(config)
 
     def start(self):
         self.log.info(f"start() from {self.service_attributes.name} service called")
