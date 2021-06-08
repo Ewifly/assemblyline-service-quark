@@ -1,6 +1,6 @@
 FROM cccs/assemblyline-v4-service-base:latest
 
-ENV SERVICE_PATH quark.Quark
+ENV SERVICE_PATH quarkengine.QuarkEngine
 
 USER root
 

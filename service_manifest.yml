@@ -1,4 +1,4 @@
-name: Quark
+name: QuarkEngine
 version: $SERVICE_TAG
 description: >
   APK crime analyser
@@ -24,6 +24,6 @@ submission_params:
     value: false
 
 docker_config:
-  image: ewifly/assemblyline-service-quark:$SERVICE_TAG
+  image: ewifly/assemblyline-service-quarkengine:$SERVICE_TAG
   cpu_cores: 1.0
   ram_mb: 512

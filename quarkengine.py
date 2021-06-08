@@ -4,7 +4,7 @@ from subprocess import Popen, call
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FORMAT, Heuristic
 
-class Quark(ServiceBase):
+class QuarkEngine(ServiceBase):
     def __init__(self, config=None):
         super(Quark, self).__init__(config)
 
