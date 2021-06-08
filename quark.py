@@ -1,7 +1,6 @@
 import json
 import os
 from subprocess import Popen, call
-from assemblyline.common.hexdump import hexdump
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FORMAT, Heuristic
 
