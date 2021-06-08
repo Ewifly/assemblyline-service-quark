@@ -1,0 +1,29 @@
+name: Quark
+version: $SERVICE_TAG
+description: >
+  APK crime analyser
+accepts: android/apk
+rejects: empty|metadata/.*
+
+stage: CORE
+category: Static Analysis
+
+file_required: true
+# Maximum execution time the service has before it's considered to be timed out
+timeout: 120
+disable_cache: false
+
+# is the service enabled by default
+enabled: true
+is_external: false
+
+submission_params:
+  - default: false
+    name: generate_graphs
+    type: bool
+    value: false
+
+docker_config:
+  image: ewifly/assemblyline-service-quark:$SERVICE_TAG
+  cpu_cores: 1.0
+  ram_mb: 512
