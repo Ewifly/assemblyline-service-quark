@@ -52,15 +52,14 @@ class QuarkEngine(ServiceBase):
             if crimes_array[i]['confidence'] in ["60%", "80%", "100%"]: 
                 dic_report_crime["{0}".format(crimes_array[i]["crime"])] = ResultSection("{0}".format(crimes_array[i]["crime"]), parent = crimes_section, body_format=BODY_FORMAT.MEMORY_DUMP)
                 dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("confidence level : {0}".format(crimes_array[i]["confidence"]))
-                dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("weight : {0}".format(crimes_array[i]["weight"]))
 
                 if len(crimes_array[i]['permissions']) > 0:
-                    perm_section = ResultSection("permissions associated with the crime", parent = dic_report_crime["{0}".format(crimes_array[i]["crime"])])
+                    perm_section = ResultSection("permissions associated with the crime", parent = dic_report_crime["{0}".format(crimes_array[i]["crime"])], body_format=BODY_FORMAT.MEMORY_DUMP)
                     for permission in crimes_array[i]['permissions']:
                         perm_section.add_line(permission)
 
                 if len(crimes_array[i]['native_api']) > 0:
-                    native_api_section = ResultSection("native_api", parent = dic_report_crime["{0}".format(crimes_array[i]["crime"])])
+                    native_api_section = ResultSection("native_api", parent = dic_report_crime["{0}".format(crimes_array[i]["crime"])], body_format=BODY_FORMAT.MEMORY_DUMP)
                     for api in crimes_array[i]["native_api"]:
                         native_api_section.add_line("class : {0}".format(api["class"]))
                         native_api_section.add_line("method : {0}".format(api["method"])) 
