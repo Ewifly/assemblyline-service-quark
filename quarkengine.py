@@ -62,7 +62,9 @@ class QuarkEngine(ServiceBase):
                     native_api_section = ResultSection("native_api", parent = dic_report_crime["{0}".format(crimes_array[i]["crime"])], body_format=BODY_FORMAT.MEMORY_DUMP)
                     for api in crimes_array[i]["native_api"]:
                         native_api_section.add_line("class : {0}".format(api["class"]))
-                        native_api_section.add_line("method : {0}".format(api["method"])) 
+                        native_api_section.add_line("method : {0}".format(api["method"]))
+            dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("   ")
+
         result.add_section(crimes_section)
 
     def manage_threat_level(self, data, result):
@@ -72,3 +74,4 @@ class QuarkEngine(ServiceBase):
             threat_section = ResultSection("threat level : {0}".format(data['threat_level']), heuristic = Heuristic(2))
         if data['threat_level'] == 'High Risk':
             threat_section = ResultSection("threat level : {0}".format(data['threat_level']), heuristic = Heuristic(3))
+        result.add_section(threat_section)
