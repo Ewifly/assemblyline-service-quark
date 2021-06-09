@@ -26,10 +26,7 @@ class QuarkEngine(ServiceBase):
 
         if os.path.exists(quark_out):
             self.run_analysis(quark_out, result)
-            res_sec = ResultSection("A file containing raw Json output was generated")
             request.add_supplementary(quark_out, "quark_out", "These are quark Results as a JSON file")
-            self.run_analysis(quark_out, result)
-            result.add_section(res_sec)
         request.result = result
 
 
@@ -37,6 +34,7 @@ class QuarkEngine(ServiceBase):
         with open(quark_out) as f:
             data = json.load(f)
 
+        self.manage_threat_level(data, result)
         dic_report_crime = {}
         crimes_section = ResultSection("Crimes detected")
         crimes_array = []
@@ -52,7 +50,7 @@ class QuarkEngine(ServiceBase):
 
         for i in range(len(crimes_array)):
             if crimes_array[i]['confidence'] in ["60%", "80%", "100%"]: 
-                dic_report_crime["{0}".format(crimes_array[i]["crime"])] = ResultSection("{0}".format(crimes_array[i]["crime"]), parent = crimes_section)
+                dic_report_crime["{0}".format(crimes_array[i]["crime"])] = ResultSection("{0}".format(crimes_array[i]["crime"]), parent = crimes_section, body_format=BODY_FORMAT.MEMORY_DUMP)
                 dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("confidence level : {0}".format(crimes_array[i]["confidence"]))
                 dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("weight : {0}".format(crimes_array[i]["weight"]))
 
@@ -67,3 +65,11 @@ class QuarkEngine(ServiceBase):
                         native_api_section.add_line("class : {0}".format(api["class"]))
                         native_api_section.add_line("method : {0}".format(api["method"])) 
         result.add_section(crimes_section)
+
+    def manage_threat_level(self, data, result):
+        if data['threat_level'] == 'Low_Risk':
+            threat_section = ResultSection("threat level : {0}".format(data['threat_level']), heuristic = Heuristic(1))
+        if data['threat_level'] == 'Moderate Risk':
+            threat_section = ResultSection("threat level : {0}".format(data['threat_level']), heuristic = Heuristic(2))
+        if data['threat_level'] == 'High Risk':
+            threat_section = ResultSection("threat level : {0}".format(data['threat_level']), heuristic = Heuristic(3))

@@ -27,3 +27,20 @@ docker_config:
   image: ewifly/assemblyline-service-quarkengine:latest
   cpu_cores: 1.0
   ram_mb: 512
+
+heuristics:
+  - description: QuarkEngine verdict -> Low Risk APK
+    filetype: android/apk
+    heur_id: 1
+    name: Low Risk APK
+    score: 0
+  - description: QuarkEngine verdict -> Moderate Risk APK
+    filetype: android/apk
+    heur_id: 2
+    name:  Moderate Risk APK
+    score: 0
+  - description: QuarkEngine verdict -> High Risk APK
+    filetype: android/apk
+    heur_id: 3
+    name: High Risk APK
+    score: 100
