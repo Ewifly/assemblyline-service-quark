@@ -39,20 +39,31 @@ class QuarkEngine(ServiceBase):
 
         dic_report_crime = {}
         crimes_section = ResultSection("Crimes detected")
+        crimes_array = []
+        counter = 0
         for i in range(len(data['crimes'])):
-            if data['crimes'][i]['confidence'] in ["60%", "80%", "100%"]: 
-                dic_report_crime["{0}".format(data["crimes"][i]["crime"])] = ResultSection("{0}".format(data["crimes"][i]["crime"]), parent = crimes_section)
-                dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("confidence level : {0}".format(data["crimes"][i]["confidence"]))
-                dic_report_crime["{0}".format(data["crimes"][i]["crime"])].add_line("weight : {0}".format(data["crimes"][i]["weight"]))
+            if data['crimes'][i]['confidence'] == "80%":
+                crimes_array.insert(len(crimes_array) - counter, data['crimes'][i])
+            if data['crimes'][i]['confidence'] == "100%":
+                crimes_array.insert(0, data['crimes'][i])
+            if data['crimes'][i]['confidence'] == "60%":
+                counter += 1
+                crimes_array.insert(len(crimes_array), data['crimes'][i])
 
-                if len(data["crimes"][i]['permissions']) > 0:
-                    perm_section = ResultSection("permissions associated with the crime", parent = dic_report_crime["{0}".format(data["crimes"][i]["crime"])])
-                    for permission in data["crimes"][i]['permissions']:
+        for i in range(len(crimes_array)):
+            if crimes_array[i]['confidence'] in ["60%", "80%", "100%"]: 
+                dic_report_crime["{0}".format(crimes_array[i]["crime"])] = ResultSection("{0}".format(crimes_array[i]["crime"]), parent = crimes_section)
+                dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("confidence level : {0}".format(crimes_array[i]["confidence"]))
+                dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("weight : {0}".format(crimes_array[i]["weight"]))
+
+                if len(crimes_array[i]['permissions']) > 0:
+                    perm_section = ResultSection("permissions associated with the crime", parent = dic_report_crime["{0}".format(crimes_array[i]["crime"])])
+                    for permission in crimes_array[i]['permissions']:
                         perm_section.add_line(permission)
 
-                if len(data["crimes"][i]['native_api']) > 0:
-                    native_api_section = ResultSection("native_api", parent = dic_report_crime["{0}".format(data["crimes"][i]["crime"])])
-                    for api in data["crimes"][i]["native_api"]:
+                if len(crimes_array[i]['native_api']) > 0:
+                    native_api_section = ResultSection("native_api", parent = dic_report_crime["{0}".format(crimes_array[i]["crime"])])
+                    for api in crimes_array[i]["native_api"]:
                         native_api_section.add_line("class : {0}".format(api["class"]))
                         native_api_section.add_line("method : {0}".format(api["method"])) 
         result.add_section(crimes_section)
