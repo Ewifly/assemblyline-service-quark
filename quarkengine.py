@@ -1,6 +1,6 @@
 import json
 import os
-from subprocess import Popen, call
+from subprocess import call
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.result import Result, ResultSection, BODY_FORMAT, Heuristic
 
@@ -18,11 +18,9 @@ class QuarkEngine(ServiceBase):
         quark_out = os.path.join(self.working_directory, 'quark_out')
         quark_graph = os.path.join(self.working_directory, 'call_graph_image')
         if request.get_param('generate_graphs'):
-            qu = Popen(["quark", "-a", apk, "-g", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
-            qu.communicate()
+            call(["quark", "-a", apk, "-g", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
         else:
-            qu = Popen(["quark", "-a", apk, "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
-            qu.communicate()
+            call(["quark", "-a", apk, "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
 
         if os.path.exists(quark_out):
             self.run_analysis(quark_out, result)
