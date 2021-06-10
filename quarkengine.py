@@ -16,8 +16,8 @@ class QuarkEngine(ServiceBase):
         apk = request.file_path
         filename = os.path.basename(apk)
         quark_out = os.path.join(self.working_directory, 'quark_out')
+        quark_graph = os.path.join(self.working_directory, 'call_graph_image')
         if request.get_param('generate_graphs'):
-            quark_graph = os.path.join(self.working_directory, 'call_graph_image')
             qu = Popen(["quark", "-a", apk, "-g", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
             qu.communicate()
         else:
