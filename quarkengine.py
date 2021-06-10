@@ -53,7 +53,7 @@ class QuarkEngine(ServiceBase):
 
         for i in range(len(crimes_array)):
             if crimes_array[i]['confidence'] in ["60%", "80%", "100%"]: 
-                dic_report_crime["{0}".format(crimes_array[i]["crime"])] = ResultSection("{0}".format(crimes_array[i]["crime"]))
+                dic_report_crime["{0}".format(crimes_array[i]["crime"])] = ResultSection("{0}".format(crimes_array[i]["crime"]),parent = crimes_section)
                 dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("confidence level : {0}".format(crimes_array[i]["confidence"]))
 
                 if len(crimes_array[i]['permissions']) > 0:
@@ -70,7 +70,7 @@ class QuarkEngine(ServiceBase):
         result.add_section(crimes_section)
 
     def manage_threat_level(self, data, result):
-        if data['threat_level'] == 'Low_Risk':
+        if data['threat_level'] == 'Low Risk':
             threat_section = ResultSection("threat level : {0}".format(data['threat_level']), heuristic = Heuristic(1))
         if data['threat_level'] == 'Moderate Risk':
             threat_section = ResultSection("threat level : {0}".format(data['threat_level']), heuristic = Heuristic(2))
