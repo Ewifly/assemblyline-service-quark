@@ -5,7 +5,7 @@ ENV SERVICE_PATH quarkengine.QuarkEngine
 USER root
 
 # Install any service dependencies here
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git, graphviz
 RUN python3.7 -m pip install -U quark-engine
 RUN chown -R assemblyline:assemblyline /opt/al_service/
 
