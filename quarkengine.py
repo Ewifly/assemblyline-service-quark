@@ -18,17 +18,16 @@ class QuarkEngine(ServiceBase):
         quark_out = os.path.join(self.working_directory, 'quark_out')
         quark_graph = os.path.join(self.working_directory, 'call_graph_image')
         if request.get_param('generate_graphs'):
-            call(["quark", "-a", apk, "-g", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
+            call(["quark", "-a", apk, "-g", "-s", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
         else:
             call(["quark", "-a", apk, "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
-
         if os.path.exists(quark_out):
             self.run_analysis(quark_out, result)
             request.add_supplementary(quark_out, "quark_out", "These are quark Results as a JSON file")
-            if os.path.exists(quark_graph):
-                for filename in os.listdir(quark_graph):
-                    if filename.endswith(".png"):
-                        request.add_supplementary(os.path.join(quark_graph, filename), filename, "call graph : {0}".format(filename))
+        if os.path.exists(quark_graph):
+            for filename in os.listdir(quark_graph):
+                if filename.endswith(".png"):
+                    request.add_supplementary(os.path.join(quark_graph, filename), filename, "call graph : {0}".format(filename))
         request.result = result
 
 
