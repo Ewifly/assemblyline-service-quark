@@ -16,7 +16,9 @@ class QuarkEngine(ServiceBase):
         apk = request.file_path
         filename = os.path.basename(apk)
         quark_out = os.path.join(self.working_directory, 'quark_out')
-        quark_graph = os.path.join(self.working_directory, 'call_graph_image')
+        quark_graph = os.path.join('/opt/al_service/', 'call_graph_image')
+
+
         if request.get_param('generate_graphs'):
             call(["quark", "-a", apk, "-g", "-s", "-o", quark_out, "-r", "/opt/al_support/quark-rules"])
         else:
@@ -24,6 +26,7 @@ class QuarkEngine(ServiceBase):
         if os.path.exists(quark_out):
             self.run_analysis(quark_out, result)
             request.add_supplementary(quark_out, "quark_out", "These are quark Results as a JSON file")
+
         if os.path.exists(quark_graph):
             for filename in os.listdir(quark_graph):
                 if filename.endswith(".png"):
@@ -50,7 +53,7 @@ class QuarkEngine(ServiceBase):
                 crimes_array.insert(len(crimes_array), data['crimes'][i])
 
         for i in range(len(crimes_array)):
-            if crimes_array[i]['confidence'] in ["60%", "80%", "100%"]: 
+            if crimes_array[i]['confidence'] in ["80%", "100%"]: 
                 dic_report_crime["{0}".format(crimes_array[i]["crime"])] = ResultSection("{0}".format(crimes_array[i]["crime"]),parent = crimes_section)
                 dic_report_crime["{0}".format(crimes_array[i]["crime"])].add_line("confidence level : {0}".format(crimes_array[i]["confidence"]))
 
